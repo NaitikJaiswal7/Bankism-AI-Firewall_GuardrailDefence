@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "description": "BANKISM — Blue-Team AI Firewall & Guardrail Defense for Natural-Language Financial Applications",
   "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
     "install:all": "npm --prefix backend install && npm --prefix frontend install",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "build:backend": "npm --prefix backend run build",
     "build:frontend": "npm --prefix frontend run build",
-    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "build:api": "node scripts/build-api.js",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build && npm run build:api",
+    "vercel-build": "npm run build",
     "test": "npm --prefix backend test",
     "start": "npm --prefix backend start"
   },

@@ -71,7 +71,7 @@ export const App: React.FC = () => {
               <div>
                 <span className="font-bold">Firewall Service Connecting...</span>
                 <p className="text-amber-300/80 text-[11px] mt-0.5">
-                  Connecting to BANKISM firewall server on port 3001. Ensure backend process is active.
+                  Connecting to BANKISM firewall backend... Ensure backend service is active (Local: http://localhost:3001 | Cloud: Vercel serverless / configured API URL).
                 </p>
               </div>
             </div>

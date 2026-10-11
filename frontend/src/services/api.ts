@@ -10,7 +10,10 @@ import type {
   SystemHealthData,
 } from '../types';
 
-const BASE_URL = '/api';
+// Support configurable API base URL via environment variable (e.g. for Vercel -> backend host)
+// Defaults to '/api' which works with Vite proxy locally and Vercel serverless rewrites
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/+$/, '');
+
 
 export const api = {
   // Analyze input through pipeline

@@ -270,6 +270,53 @@ Once running, navigate to **`http://localhost:5173`** in your browser.
 
 ---
 
+## 🚀 Deployment Guide (Vercel & Production)
+
+### Why doesn't port 3001 work on Vercel?
+On local machines, the Express backend listens on `http://localhost:3001`. However, **Vercel is a serverless platform** — it does not run persistent background Node.js server daemons or bind to continuous network ports like `3001`. 
+
+This repository is pre-configured with **two plug-and-play production deployment options**:
+
+---
+
+### Option A: All-in-One Full-Stack on Vercel (Recommended — Zero Extra Servers)
+Both the Vite frontend and the Express backend run directly on Vercel under the same domain.
+
+1. **Push your repository** to GitHub.
+2. In the **[Vercel Dashboard](https://vercel.com/)**, click **"Add New Project"** and import your repository.
+3. Configure project settings:
+   - **Framework Preset**: `Vite` (or `Other`)
+   - **Root Directory**: `./` (keep root, do not change to `frontend`)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `frontend/dist`
+4. Click **Deploy**.
+5. **How it works behind the scenes**:
+   - `vercel.json` routes `/api/*` requests to the compiled serverless function in `api/index.js`.
+   - All client routes route to the optimized Vite SPA in `frontend/dist`.
+   - CORS is configured to accept Vercel preview and production URLs automatically.
+
+---
+
+### Option B: Deploy Backend & Frontend Separately (e.g., Render + Vercel)
+If you prefer running a dedicated long-running backend server on platforms like Render, Railway, or Fly.io:
+
+1. **Deploy Backend (e.g. on Render / Railway)**:
+   - Root Directory: `backend` (or project root with `--prefix backend`)
+   - Build Command: `npm run build`
+   - Start Command: `npm start`
+   - Note down the generated service URL (e.g. `https://bankism-api.onrender.com`).
+2. **Deploy Frontend on Vercel**:
+   - In your Vercel Project Settings → **Environment Variables**, add:
+     ```env
+     VITE_API_BASE_URL=https://bankism-api.onrender.com/api
+     ```
+   - Redeploy the frontend. All frontend calls will now route directly to your live backend service.
+3. **CORS Support**:
+   - Set `CORS_ORIGIN=https://your-bankism-app.vercel.app` on your backend service (or leave unset to allow all `.vercel.app` domains automatically).
+
+---
+
+
 ## 🌐 API Reference
 
 | Method | Endpoint | Description |
